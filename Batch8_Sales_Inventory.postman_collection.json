@@ -1,0 +1,74 @@
+{
+	"info": {
+		"_postman_id": "47ec4267-1b03-4c95-aad1-b13aad673e2a",
+		"name": "Batch8_Sales_Inventory",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "42731631"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "tanveer",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "t@example.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": "http://salesInventory.test/api/auth/register",
+						"description": "## Register User\n\nThis endpoint is used to register a new user in the system. It accepts user details and returns a response containing user information along with an access token for authentication.\n\n### Request\n\n**Method:** POST  \n**URL:** `http://salesInventory.test/api/auth/register`\n\n#### Request Body\n\nThe request body must be sent as `form-data` and should include the following parameters:\n\n- **name** (text): The name of the user to be registered.\n    \n- **email** (text): The email address of the user. This must be unique and valid.\n    \n- **password** (text): The password for the user account. It should meet the security requirements.\n    \n- **password_confirmation** (text): A confirmation of the password to ensure accuracy.\n    \n\n### Response\n\nOn a successful registration, the response will return a status code of `200` and will be in JSON format. The structure of the response is as follows:\n\n- **status**: A string indicating the status of the request.\n    \n- **message**: A string containing any relevant messages regarding the registration process.\n    \n- **data**: An object containing:\n    \n    - **user**: An object with user details:\n        \n        - **name**: The name of the registered user.\n            \n        - **email**: The email of the registered user.\n            \n        - **updated_at**: Timestamp of when the user information was last updated.\n            \n        - **created_at**: Timestamp of when the user was created.\n            \n        - **id**: The unique identifier for the user.\n            \n    - **access_token**: The token used for authenticating subsequent requests.\n        \n    - **token_type**: The type of token returned (e.g., Bearer).\n        \n    - **expires_in**: The duration in seconds for which the access token is valid.\n        \n\nEnsure to handle the response appropriately to utilize the access token for further authenticated requests."
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "healthcheck",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
