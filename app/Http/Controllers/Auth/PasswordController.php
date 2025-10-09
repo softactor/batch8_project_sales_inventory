@@ -63,6 +63,49 @@ class PasswordController extends Controller
 
     public function passwordReset(Request $request)
     {
+        $email = $request->email;
+        $password = $request->password;
+        $token = $request->token; 
+
+        // check password_reset_tokens data with incoming $token
+        $tokenRecord = DB::table('password_reset_tokens')->where('token', $token)->first();
+
+        if(!$tokenRecord || ($token != $tokenRecord->token)){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Token was invalid'
+            ],Response::HTTP_NOT_FOUND);
+        }
+
+        //get user data with $email
+        $user = User::where('email', $email)->first();
+
+        if(!$user){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'User not found'
+            ],Response::HTTP_NOT_FOUND);
+        }
+
+        //Check token validation
+        if(Carbon::parse($tokenRecord->created_at)->addHour()->isPast()){
+            DB::table('password_reset_tokens')->where('token', $token)->delete();
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Token/Time expired!'
+            ],Response::HTTP_NOT_FOUND);
+        }
+
+        //Update Password
+        $user->update(['password' => $password]);
+
+        //Delete used token
+        DB::table('password_reset_tokens')->where('token', $token)->delete();
+
+        return response()->json([
+                'status' => 'success',
+                'message' => 'Password reset successfully'
+            ],Response::HTTP_OK);
 
     }
 
