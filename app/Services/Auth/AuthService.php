@@ -2,6 +2,7 @@
 
 namespace App\Services\Auth;
 
+use App\Mail\ResetPasswordLinkMail;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Response;
@@ -89,15 +90,7 @@ class AuthService
             ]
         );
 
-        $emailData = [
-            'user' => $user,
-            'token' => $token
-        ];
-
-        Mail::send('emails.password_reset', $emailData, function ($message) use($user) {
-            $message->to($user->email, $user->name);
-            $message->subject('Password Reset Email');
-        });
+        Mail::to($user->email)->send(new ResetPasswordLinkMail($user, $token));
 
 
         return response()->json([
