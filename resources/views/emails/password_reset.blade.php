@@ -10,6 +10,7 @@
     <h1>Hello user {{ $user->name }}</h1>
     <p>You have requested for password reset</p>
     <p>Please click the link below to reset your password</p>
+    <p>Token: {{ $token }}</p>
     <a href="{{ url('/password/password_reset?totken='.$token) }}">Password Reset</a>
 
     <p>Rememer the token is valid for 60 minutes!</p>
