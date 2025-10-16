@@ -2,7 +2,11 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\InventoryTransactionController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserManageController;
+use App\Models\InventoryTransaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +33,11 @@ Route::middleware('auth:api')->group(function(){
     Route::prefix('users')->group(function(){
         Route::post('/', [UserManageController::class, 'createUser']);
     });
+
+
+    Route::resource('categories', CategoryController::class);
+    Route::resource('products', ProductController::class);
+    Route::resource('inventory-transactions', InventoryTransactionController::class);
 
 });
 
