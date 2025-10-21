@@ -36,4 +36,16 @@ class Product extends Model
         $this->stock_quantity += $quantity;
         $this->save();
     }
+
+    public function scopeForUser($query, $userId)
+    {
+        return $query->where('created_by', $userId); 
+    }
+
+    public function scopeSearch($q, $search)
+    {
+        return $q->where('name', 'like', "%{$search}%")
+        ->oRwhere('description', 'like', "%{$search}%")
+        ->oRwhere('sku', 'like', "%{$search}%");
+    }
 }

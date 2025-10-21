@@ -4,10 +4,10 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Auth\BaseRequest;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class ProductRequest extends BaseRequest
+class ProductUpdateRequest extends BaseRequest
 {
-    
     /**
      * Get the validation rules that apply to the request.
      *
@@ -15,11 +15,14 @@ class ProductRequest extends BaseRequest
      */
     public function rules(): array
     {
+        $productId = $this->route('product');
         return [
             'name' => 'required',
             'category_id' => 'required',
             'description' => 'required',
-            'sku' => 'required|unique:products,sku',
+            'sku' => ['required',
+                Rule::unique('products')->ignore($productId)
+            ],
             'cost' => 'required',
             'price' => 'required',
             'stock_quantity' => 'required',

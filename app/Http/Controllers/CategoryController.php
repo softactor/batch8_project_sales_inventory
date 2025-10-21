@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\CategoryUpdateRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -28,8 +29,7 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         $category = Category::create([
-            'name' => $request->name,
-            'description' => $request->description,
+            ...$request->validated(),
             'created_by' => auth()->id(),
         ]);
 
@@ -43,24 +43,38 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Category $category)
     {
-        //
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Category data found',
+            'data' => new CategoryResource($category)
+        ],200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CategoryUpdateRequest $request, Category $category)
     {
-        //
+        $category->update($request->validated());
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Category data successfully updated',
+            'data' => new CategoryResource($category)
+        ],200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Category data successfully deleted'
+        ],200);
     }
 }
