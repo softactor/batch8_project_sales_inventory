@@ -19,12 +19,12 @@
 							"formdata": [
 								{
 									"key": "name",
-									"value": "tanveer",
+									"value": "tihami",
 									"type": "text"
 								},
 								{
 									"key": "email",
-									"value": "t@example.com",
+									"value": "tihami@example.com",
 									"type": "text"
 								},
 								{
@@ -39,13 +39,510 @@
 								}
 							]
 						},
-						"url": "http://salesInventory.test/api/auth/register",
+						"url": "{{apiUrl}}auth/register",
 						"description": "## Register User\n\nThis endpoint is used to register a new user in the system. It accepts user details and returns a response containing user information along with an access token for authentication.\n\n### Request\n\n**Method:** POST  \n**URL:** `http://salesInventory.test/api/auth/register`\n\n#### Request Body\n\nThe request body must be sent as `form-data` and should include the following parameters:\n\n- **name** (text): The name of the user to be registered.\n    \n- **email** (text): The email address of the user. This must be unique and valid.\n    \n- **password** (text): The password for the user account. It should meet the security requirements.\n    \n- **password_confirmation** (text): A confirmation of the password to ensure accuracy.\n    \n\n### Response\n\nOn a successful registration, the response will return a status code of `200` and will be in JSON format. The structure of the response is as follows:\n\n- **status**: A string indicating the status of the request.\n    \n- **message**: A string containing any relevant messages regarding the registration process.\n    \n- **data**: An object containing:\n    \n    - **user**: An object with user details:\n        \n        - **name**: The name of the registered user.\n            \n        - **email**: The email of the registered user.\n            \n        - **updated_at**: Timestamp of when the user information was last updated.\n            \n        - **created_at**: Timestamp of when the user was created.\n            \n        - **id**: The unique identifier for the user.\n            \n    - **access_token**: The token used for authenticating subsequent requests.\n        \n    - **token_type**: The type of token returned (e.g., Bearer).\n        \n    - **expires_in**: The duration in seconds for which the access token is valid.\n        \n\nEnsure to handle the response appropriately to utilize the access token for further authenticated requests."
 					},
 					"response": []
 				},
 				{
 					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let responseBody = pm.response.json();\r",
+									"pm.environment.set(\"token\", responseBody.data.access_token);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"packages": {},
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "habib@example.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{apiUrl}}auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Forgetpassword",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "test@example.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": "http://salesInventory.test/api/auth/password/forget_password"
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "token",
+									"value": "$2y$12$6Tb.Klu2DSMqaR.gyE2IzOdHXOfWjJGz51pMmmURx5ZnFapN/5eG6",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "test@example.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "mypassword",
+									"type": "text"
+								}
+							]
+						},
+						"url": "http://salesInventory.test/api/auth/password/password_reset"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vc2FsZXNpbnZlbnRvcnkudGVzdC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc2MDQ2ODIzMiwiZXhwIjoxNzYwNDcxODMyLCJuYmYiOjE3NjA0NjgyMzIsImp0aSI6ImNyS29Od0E0RnZDMzFCWTQiLCJzdWIiOiIyIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.4rZoWFmGdfwEskfkO4rF_VLg59hh60ZS6NWFUfHw810"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Ahsan Habib",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "habib@example.com",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "phone",
+									"value": "123456789",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "roles[]",
+									"value": "3",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "roles[]",
+									"value": "2",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": "http://salesInventory.test/api/users"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vc2FsZXNpbnZlbnRvcnkudGVzdC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc2MTA2NDQyNywiZXhwIjoxNzYxMDY4MDI3LCJuYmYiOjE3NjEwNjQ0MjcsImp0aSI6ImdJQlpyc015emoyN1ZyU1QiLCJzdWIiOiIxIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.K5eYS9naJ0aLBljJXQpaM6yuv4xqEgidnlCJtSJxet0"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Smart Device",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Smart Device escriptions",
+									"type": "text"
+								}
+							]
+						},
+						"url": "http://salesInventory.test/api/categories"
+					},
+					"response": []
+				},
+				{
+					"name": "List",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vc2FsZXNpbnZlbnRvcnkudGVzdC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc2MTA2NDQyNywiZXhwIjoxNzYxMDY4MDI3LCJuYmYiOjE3NjEwNjQ0MjcsImp0aSI6ImdJQlpyc015emoyN1ZyU1QiLCJzdWIiOiIxIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.K5eYS9naJ0aLBljJXQpaM6yuv4xqEgidnlCJtSJxet0"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://salesInventory.test/api/categories"
+					},
+					"response": []
+				},
+				{
+					"name": "Show",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vc2FsZXNpbnZlbnRvcnkudGVzdC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc2MTA2MzMyNywiZXhwIjoxNzYxMDY2OTI3LCJuYmYiOjE3NjEwNjMzMjcsImp0aSI6IjBKS1VPZ09yMUpUSVRIUngiLCJzdWIiOiIxIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.0pMFLKGoEpk9Y9dZyuGemsonK5zcdgY2BnzU468bRnk"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "habib@example.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": "http://salesInventory.test/api/categories/2"
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vc2FsZXNpbnZlbnRvcnkudGVzdC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc2MTA2NDQyNywiZXhwIjoxNzYxMDY4MDI3LCJuYmYiOjE3NjEwNjQ0MjcsImp0aSI6ImdJQlpyc015emoyN1ZyU1QiLCJzdWIiOiIxIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.K5eYS9naJ0aLBljJXQpaM6yuv4xqEgidnlCJtSJxet0"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Home & Kitchen",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Home & Kitchen description",
+									"type": "text"
+								},
+								{
+									"key": "_method",
+									"value": "PUT",
+									"type": "text"
+								}
+							]
+						},
+						"url": "http://salesInventory.test/api/categories/5"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vc2FsZXNpbnZlbnRvcnkudGVzdC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc2MTA2NDQyNywiZXhwIjoxNzYxMDY4MDI3LCJuYmYiOjE3NjEwNjQ0MjcsImp0aSI6ImdJQlpyc015emoyN1ZyU1QiLCJzdWIiOiIxIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.K5eYS9naJ0aLBljJXQpaM6yuv4xqEgidnlCJtSJxet0"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "http://salesInventory.test/api/categories/7"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Non-Stick Frying Pan (28cm)",
+									"type": "text"
+								},
+								{
+									"key": "category_id",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Non-Stick Frying Pan (28cm) description",
+									"type": "text"
+								},
+								{
+									"key": "sku",
+									"value": "Non-Stick-Frying -v11",
+									"type": "text"
+								},
+								{
+									"key": "cost",
+									"value": "250",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "1500",
+									"type": "text"
+								},
+								{
+									"key": "stock_quantity",
+									"value": "300",
+									"type": "text"
+								},
+								{
+									"key": "reorder_level",
+									"value": "20",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{apiUrl}}products"
+					},
+					"response": []
+				},
+				{
+					"name": "List",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://salesInventory.test/api/products"
+					},
+					"response": []
+				},
+				{
+					"name": "Show",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{apiUrl}}products/2"
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Men's Cotton Panjabi",
+									"type": "text"
+								},
+								{
+									"key": "category_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Men's Cotton Panjabi description",
+									"type": "text"
+								},
+								{
+									"key": "sku",
+									"value": "cotton-panjavi-v1",
+									"type": "text"
+								},
+								{
+									"key": "cost",
+									"value": "2500",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "5000",
+									"type": "text"
+								},
+								{
+									"key": "stock_quantity",
+									"value": "600",
+									"type": "text"
+								},
+								{
+									"key": "reorder_level",
+									"value": "50",
+									"type": "text"
+								},
+								{
+									"key": "_method",
+									"value": "PUT",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{apiUrl}}products/7"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "{{apiUrl}}products/2"
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "{{token}}"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Inventory Transaction",
+			"item": [
+				{
+					"name": "Create",
 					"request": {
 						"method": "GET",
 						"header": []
@@ -53,7 +550,7 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "List",
 					"request": {
 						"method": "GET",
 						"header": []
@@ -66,7 +563,8 @@
 			"name": "healthcheck",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": "http://salesInventory.test/api/healthcheck"
 			},
 			"response": []
 		}
