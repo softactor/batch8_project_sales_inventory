@@ -16,12 +16,11 @@ class InventoryTransactionRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'product_id' => 'required',
-            'type' => 'required',
-            'quantity' => 'required',
-            'unit_cost' => 'required',
-            'total_value' => 'required',
-            'notes' => 'required',
+            'product_id' => 'required|exists:products,id',
+            'type' => 'required|in:purchase,sale,adjustment,return',
+            'quantity' => 'required|integer|min:1',
+            'unit_cost' => 'required|numeric|min:0',
+            'notes' => 'nullable|string',
         ];
     }
 }

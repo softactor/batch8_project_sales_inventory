@@ -16,7 +16,6 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $products = Product::orderBy('name', 'asc')
-        ->forUser(auth()->id())
         ->when($request->find, function($q, $search){
             return $q->search($search);
         })

@@ -32,8 +32,10 @@ class Product extends Model
         return $this->hasMany(InventoryTransaction::class);
     }
 
-    public function updateStock($quantity) : bool {
+    public function updateStock($quantity, $totalValue)
+    {
         $this->stock_quantity += $quantity;
+        $this->price += $totalValue;
         $this->save();
     }
 

@@ -24,4 +24,28 @@ class InventoryTransaction extends Model
     public function creator() : BelongsTo {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function($transaction){
+            $transaction->total_value = ($transaction->quantity * $transaction->unit_cost);
+        });
+
+        static::created(function($transaction){
+            $product = $transaction->product;
+
+            if(in_array($transaction->type, ['purchase', 'return']))
+            {
+                $product->stock_quantity += $transaction->quantity;
+                $product->price += $transaction->total_value;
+            }else{
+                $product->stock_quantity -= $transaction->quantity;
+                $product->price -= $transaction->total_value;
+            }
+
+            $product->save();
+        });
+    }
 }
