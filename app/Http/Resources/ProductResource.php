@@ -28,6 +28,7 @@ class ProductResource extends JsonResource
             'created_by_name' => $this->creator->name,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'customeKey' => 'custome value',
         ];
 
     }

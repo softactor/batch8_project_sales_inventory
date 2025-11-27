@@ -23,7 +23,7 @@ class ProductController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Product List',
-            'data' => ProductResource::collection($products)
+            'data' => ProductResource::collection($products)->response()->getData(true)
         ],200);
     }
 

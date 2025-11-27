@@ -7,6 +7,7 @@ use App\Http\Requests\CategoryUpdateRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CategoryController extends Controller
 {
@@ -15,10 +16,18 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        if(!Gate::allows('viewAny', Category::class))
+        {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Unauthorized to view the list',
+            ],401);
+        }
+
         $categories = Category::get();
         return response()->json([
             'status' => 'success',
-            'message' => 'Category created',
+            'message' => 'Categories data',
             'data' => CategoryResource::collection($categories)
         ],200);
     }
@@ -28,6 +37,15 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
+
+        if(!Gate::allows('create', Category::class))
+        {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Unauthorized to create category',
+            ],401);
+        }
+
         $category = Category::create([
             ...$request->validated(),
             'created_by' => auth()->id(),
@@ -45,6 +63,14 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
+        if(!Gate::allows('view', Category::class))
+        {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Unauthorized to show category',
+            ],401);
+        }
+
         return response()->json([
             'status' => 'success',
             'message' => 'Category data found',
@@ -57,6 +83,15 @@ class CategoryController extends Controller
      */
     public function update(CategoryUpdateRequest $request, Category $category)
     {
+
+        if(!Gate::allows('update', Category::class))
+        {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Unauthorized to update category',
+            ],401);
+        }
+
         $category->update($request->validated());
 
         return response()->json([
@@ -71,6 +106,14 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        if(!Gate::allows('delete', Category::class))
+        {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Unauthorized to delete category',
+            ],401);
+        }
+
         $category->delete();
         return response()->json([
             'status' => 'success',
