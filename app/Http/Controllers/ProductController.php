@@ -32,11 +32,19 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
+
+        $image_path = null;
+
+        if($request->hasFile('image')){
+            $image_path = $request->file('image')->store('products', 'public');
+        }
+
         $product = Product::create([
             'name' => $request->name,
             'category_id' => $request->category_id,
             'description' => $request->description,
             'sku' => $request->sku,
+            'image_path' => $image_path,
             'cost' => $request->cost,
             'price' => $request->cost * $request->stock_quantity,
             'stock_quantity' => $request->stock_quantity,

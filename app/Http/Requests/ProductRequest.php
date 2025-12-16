@@ -20,6 +20,7 @@ class ProductRequest extends BaseRequest
             'category_id' => 'required',
             'description' => 'required',
             'sku' => 'required|unique:products,sku',
+            'image' => 'nullable|image|mimes:jpeg,jpg,png|max:1024',
             'cost' => 'required',
             'price' => 'required',
             'stock_quantity' => 'required',
