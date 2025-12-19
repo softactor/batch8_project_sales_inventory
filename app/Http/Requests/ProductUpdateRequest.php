@@ -20,6 +20,7 @@ class ProductUpdateRequest extends BaseRequest
             'name' => 'required',
             'category_id' => 'required',
             'description' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,jpg,png|max:1024',
             'sku' => ['required',
                 Rule::unique('products')->ignore($productId)
             ],

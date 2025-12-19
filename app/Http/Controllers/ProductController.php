@@ -7,6 +7,7 @@ use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -19,7 +20,7 @@ class ProductController extends Controller
         ->when($request->find, function($q, $search){
             return $q->search($search);
         })
-        ->paginate();
+        ->paginate(5);
         return response()->json([
             'status' => 'success',
             'message' => 'Product List',
@@ -76,6 +77,17 @@ class ProductController extends Controller
      */
     public function update(ProductUpdateRequest $request, Product $product)
     {
+
+        if($request->hasFile('image')){
+
+            if($product->image_path){
+                Storage::disk('public')->delete($product->image_path);
+            }
+
+            $image_path = $request->file('image')->store('products', 'public');
+            $product->image_path = $image_path;
+        }
+
         $product->update($request->validated());
         return response()->json([
             'status' => 'success',
